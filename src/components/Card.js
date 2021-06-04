@@ -13,7 +13,7 @@ const GameCard = ({value, addCartToTemp, cleanUpTemp, inTemp}) => {
     useEffect(cleanUpTemp, [count]);
 
     return (
-        <Col>
+        <Col data-testid={`card-${value.id}`}>
             <Card variant="top" className="mb-3" style={{border: "none", width: 150}}>
                 <a style={{cursor: 'pointer'}} onClick={() => {
                         addCartToTemp(value);

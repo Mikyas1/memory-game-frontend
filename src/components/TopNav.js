@@ -16,7 +16,7 @@ const TopNav = ({gameState, isCompleted, getGameCards, saveGame}) => {
     }
 
     return (
-        <div className="pt-lg-3 pb-lg-3">
+        <div data-testid="top-nav" className="pt-lg-3 pb-lg-3">
             <Row>
                 <Col>
                     <Badge pill variant="primary">

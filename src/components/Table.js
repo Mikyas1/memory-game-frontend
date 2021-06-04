@@ -32,12 +32,12 @@ const Table = () => {
 
     if (state.cards.length === 0) {
         return (
-            <h1>Loading....</h1>
+            <h1 data-testid="table">Loading....</h1>
         )
     }
 
     return (
-        <Container>
+        <Container data-testid="table">
             <TopNav gameState={state} isCompleted={GameCompleted} getGameCards={getGameCards} saveGame={saveGame}/>
             <Row>
                 {

@@ -5,7 +5,7 @@ import cardImage from "../../assets/card.jpg";
 
 const CardCover = () => {
     return (
-        <Card.Img className="animate__animated animate__flipInY" src={cardImage}/>
+        <Card.Img data-testid={`card-covered`} className="animate__animated animate__flipInY" src={cardImage}/>
     )
 }
 

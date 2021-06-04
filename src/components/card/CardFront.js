@@ -39,7 +39,7 @@ const CardFront = ({value}) => {
     }, []);
 
     return (
-        <Card.Body style={{backgroundColor: "white"}} className="animate__animated animate__tada">
+        <Card.Body data-testid={`card-facing-up`} style={{backgroundColor: "white"}} className="animate__animated animate__tada">
             <h2 style={{color: memoKnowCardType(value.type).color}}>
                 {memoKnowCardValue(value.value)}
             </h2>
@@ -54,10 +54,10 @@ const CardFront = ({value}) => {
                 <Col></Col>
                 <Col></Col>
                 <Col xs={4}>
-                    {value.value != 10 && <h2 style={{color: memoKnowCardType(value.type).color}}>
+                    {value.value !== 10 && <h2 style={{color: memoKnowCardType(value.type).color}}>
                         {memoKnowCardValue(value.value)}
                     </h2>}
-                    {value.value == 10 && <h5 style={{color: memoKnowCardType(value.type).color, marginBottom: 21}}>
+                    {value.value === 10 && <h5 style={{color: memoKnowCardType(value.type).color, marginBottom: 21}}>
                         {memoKnowCardValue(value.value)}
                     </h5>}
                 </Col>
