@@ -1,88 +1,71 @@
-import "@testing-library/jest-dom/extend-expect";
-import {render, screen, cleanup, getByTestId} from "@testing-library/react";
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import Card from "../Card";
-import CardFront from "../card/CardFront";
+import { findByTestAttr } from '../../test/testUtils';
+import Card from '../Card';
 
-afterEach(() => {
-    cleanup();
-})
+const defaultProps = {
+  value: {
+    type: 1,
+    value: 3,
+    solved: false,
+    id: '13',
+    cardId: '13',
+  },
+  cleanUpTemp: () => {},
+  inTemp: false,
+  addCartToTemp: () => {},
+};
+
+const setup = (props = {}) => {
+  const propList = { ...defaultProps, ...props };
+  return shallow(<Card {...propList} />);
+};
 
 test('should Card component render', () => {
-    const card = {
-        type: 1,
-        value: 3,
-        solved: false,
-        id: "13",
-        cardId: "13",
-    };
+  const wrapper = setup();
+  const component = findByTestAttr(wrapper, `card-${defaultProps.value.id}`);
+  expect(component.length).toBe(1);
+});
 
-    render(<Card value={card}
-                 cleanUpTemp={() => {}}
-                 inTemp={false}
-                 addCartToTemp={() => {}}/>
-    );
-    const cardElement = screen.getByTestId(`card-${card.id}`);
+test('should Card face be covered when not solved and not in Temp', () => {
+  const wrapper = setup();
+  const cardElement = findByTestAttr(wrapper, `covered`);
+  expect(cardElement.length).toBe(1);
+});
 
-    expect(cardElement).toBeInTheDocument();
-})
+test('should Card face be facing up when solved but not in Temp', () => {
+  const props = {
+    value: {
+      type: 1,
+      value: 3,
+      solved: true,
+      id: '13',
+      cardId: '13',
+    },
+    cleanUpTemp: () => {},
+    inTemp: false,
+    addCartToTemp: () => {},
+  };
+  const wrapper = setup(props);
+  const cardElement = findByTestAttr(wrapper, `facing-up`);
+  expect(cardElement.length).toBe(1);
+});
 
-test ('should Card face be covered when not solved and not in Temp', () => {
-    const card = {
-        type: 1,
-        value: 3,
-        solved: false,
-        id: "13",
-        cardId: "13",
-    };
-
-    render(<Card value={card}
-                 cleanUpTemp={() => {}}
-                 inTemp={false}
-                 addCartToTemp={() => {}}/>
-    );
-    const cardElement = screen.getByTestId(`card-${card.id}`);
-
-    expect(cardElement).toBeInTheDocument();
-    expect(screen.getByTestId('card-covered')).toBeInTheDocument();
-})
-
-test ('should Card face be facing up when solved but not in Temp', () => {
-    const card = {
-        type: 1,
-        value: 3,
-        solved: true,
-        id: "13",
-        cardId: "13",
-    };
-
-    render(<Card value={card}
-                 cleanUpTemp={() => {}}
-                 inTemp={false}
-                 addCartToTemp={() => {}}/>
-    );
-    const cardElement = screen.getByTestId(`card-${card.id}`);
-
-    expect(cardElement).toBeInTheDocument();
-    expect(screen.getByTestId('card-facing-up')).toBeInTheDocument();
-})
-
-test ('should Card face be facing up when not solved but in Temp', () => {
-    const card = {
-        type: 1,
-        value: 3,
-        solved: true,
-        id: "13",
-        cardId: "13",
-    };
-
-    render(<Card value={card}
-                 cleanUpTemp={() => {}}
-                 inTemp={true}
-                 addCartToTemp={() => {}}/>
-    );
-    const cardElement = screen.getByTestId(`card-${card.id}`);
-
-    expect(cardElement).toBeInTheDocument();
-    expect(screen.getByTestId('card-facing-up')).toBeInTheDocument();
-})
+test('should Card face be facing up when not solved but in Temp', () => {
+  const props = {
+    value: {
+      type: 1,
+      value: 3,
+      solved: false,
+      id: '13',
+      cardId: '13',
+    },
+    cleanUpTemp: () => {},
+    inTemp: true,
+    addCartToTemp: () => {},
+  };
+  const wrapper = setup(props);
+  const cardElement = findByTestAttr(wrapper, `facing-up`);
+  expect(cardElement.length).toBe(1);
+});

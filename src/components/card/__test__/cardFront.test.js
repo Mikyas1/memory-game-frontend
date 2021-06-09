@@ -1,24 +1,47 @@
-import "@testing-library/jest-dom/extend-expect";
-import {render, screen, cleanup, getByTestId} from "@testing-library/react";
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import CardFront from "../CardFront";
+import { findByTestAttr, checkProps } from '../../../test/testUtils';
+import CardFront from '../CardFront';
 
-afterEach(() => {
-    cleanup();
-})
+const defaultProps = {
+  value: {
+    type: 2,
+    value: 3,
+    solved: false,
+    id: '13',
+    cardId: '13',
+  },
+};
 
-test('should Up facing Card component render', () => {
-    const value = {
-        type: 1,
-        value: 3,
-        solved: false,
-        id: "13",
-        cardId: "13",
-    }
-    render(<CardFront value={value}/>);
+const setup = (props = {}) => {
+  const propsList = { ...defaultProps, ...props };
+  return shallow(<CardFront {...propsList} />);
+};
 
-    const frontFacingCardElement = screen.getByTestId(`card-facing-up`);
+test('renders without error', () => {
+  const wrapper = setup();
+  const component = findByTestAttr(wrapper, 'card-facing-up');
+  expect(component.length).toBe(1);
+});
 
-    expect(frontFacingCardElement).toBeInTheDocument();
-})
+test('does not throw warning with expected props', () => {
+  checkProps(CardFront, defaultProps);
+});
 
+describe('renders correct card', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup();
+  });
+
+  test('renders with correct card value', () => {
+    const cardValueComponent = findByTestAttr(wrapper, 'card-value');
+    expect(cardValueComponent.text()).toBe('' + defaultProps.value.value);
+  });
+
+  test('renders with correct card type', () => {
+    const cardImageComponent = findByTestAttr(wrapper, 'card-img');
+    expect(cardImageComponent.getElement().props.src).toContain('diamond');
+  });
+});

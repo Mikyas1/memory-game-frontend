@@ -1,17 +1,15 @@
-import "@testing-library/jest-dom/extend-expect";
-import {render, screen, cleanup, getByTestId} from "@testing-library/react";
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import CardCover from "../CardCover";
+import { findByTestAttr } from '../../../test/testUtils';
+import CardCover from '../CardCover';
 
-afterEach(() => {
-    cleanup();
-})
+const setup = (props = {}) => {
+  return shallow(<CardCover />);
+};
 
-test('should Covered Card component render', () => {
-
-    render(<CardCover/>);
-    const coveredCardElement = screen.getByTestId(`card-covered`);
-
-    expect(coveredCardElement).toBeInTheDocument();
-})
-
+test('renders without error', () => {
+  const wrapper = setup();
+  const component = findByTestAttr(wrapper, 'card-covered');
+  expect(component.length).toBe(1);
+});

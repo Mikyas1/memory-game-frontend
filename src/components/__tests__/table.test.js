@@ -1,26 +1,22 @@
-import "@testing-library/jest-dom/extend-expect";
-import {render, screen, cleanup, getByTestId} from "@testing-library/react";
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen, cleanup, getByTestId } from '@testing-library/react';
 
-import {Provider} from "../../context/CardGameContext";
+import { Provider } from '../../context/CardGameContext';
 
-import Table from "../Table";
+import Table from '../Table';
 
 afterEach(() => {
-    cleanup();
-})
+  cleanup();
+});
 
 const customRender = (ui) => {
-    return render(
-        <Provider>{ui}</Provider>
-    )
-}
+  return render(<Provider>{ui}</Provider>);
+};
 
 test('should Table component render', () => {
+  customRender(<Table />);
 
-    customRender(<Table/>)
+  const frontFacingCardElement = screen.getByTestId(`table`);
 
-    const frontFacingCardElement = screen.getByTestId(`table`);
-
-    expect(frontFacingCardElement).toBeInTheDocument();
-})
-
+  expect(frontFacingCardElement).toBeInTheDocument();
+});
